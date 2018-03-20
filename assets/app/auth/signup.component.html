@@ -18,7 +18,7 @@
             <input type="text" id="password" class="form-control" formControlName="password">
         </div>
         <div>
-        <button class="btn btn-primary" type ="submit" [disabled]="!signupForm.valid">Submit</button>
+        <button class="btn btn-primary" type ="submit" [disabled]="!signupForm.valid" (click)="onSubmit()">Submit</button>
         </div>
     </form>
 </div>
