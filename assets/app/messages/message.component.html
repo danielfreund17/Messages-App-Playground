@@ -1,0 +1,19 @@
+<article class="panel panel-default">
+    <div class="panel-body">
+        {{message.content}}
+    </div>
+    <footer class="panel-footer">
+        <div class="author">
+            {{message.userName}}
+        </div>
+        <div [hidden]="!showEdit" class="panel-body">
+            <input type="text" id="content" class="form-control" [(ngModel)] = "message.content" name="messageContent" required>
+            <hr>
+            <a (click)="onSave()">Save</a>
+        </div>
+        <div class="config">
+            <a (click) = "showEdit= !showEdit">Edit</a>
+            <a (click)="onDelete()">Delete</a>
+        </div>
+    </footer>
+</article>
