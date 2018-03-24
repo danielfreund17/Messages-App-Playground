@@ -13,6 +13,7 @@ import { LogoutComponent } from './auth/logout.component';
 import { LoginComponent } from './auth/login.component';
 import { SignupComponent } from './auth/signup.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
         SignupComponent,
     ],
     imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule],
+    providers: [AuthService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

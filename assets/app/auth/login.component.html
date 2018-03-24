@@ -7,10 +7,10 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="text" id="password" class="form-control" formControlName="password">
+                <input type="password" id="password" class="form-control" formControlName="password">
             </div>
             <div>
-            <button class="btn btn-primary" type ="submit" [disabled]="!loginForm.valid">Submit</button>
+            <button class="btn btn-primary" type ="submit" [disabled]="!loginForm.valid" (click)= "onSubmit()">Submit</button>
             </div>
         </form>
     </div>

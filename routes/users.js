@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 router.post('/', function (req, res, next) {
     var user = new User({
         firstName : req.body.firstName,
         lastName: req.body.lastName,
-        password : bcrypt.hash(req.body.password, 10),
+        password : bcrypt.hashSync(req.body.password, 10),
         email : req.body.email
     });
 
@@ -22,6 +23,36 @@ router.post('/', function (req, res, next) {
         res.status(201).json({
             message: 'Created user',
             obj: mongoRes
+        });
+    });
+});
+
+
+router.post('/login', function(req, res, next) {
+    User.findOne({email: req.body.email} , (err, user) => {
+        if(err) {
+            return res.status(500).json({
+                message: 'Could not login user',
+                error: err
+            });
+        }
+        else if(!user) {
+            return res.status(500).json({
+                message: 'Login failed',
+            });
+        }
+
+        if(!bcrypt.compareSync(req.body.password, user.password)) {
+            return res.status(401).json({
+                message: 'Login failed',
+            });
+        }
+
+        var token = jwt.sign({user: user}, 'secret', {expiresIn: 7200});
+        return res.status(200).json({
+            message: 'logged in successfully',
+            token: token,
+            userId: user._id
         });
     });
 });

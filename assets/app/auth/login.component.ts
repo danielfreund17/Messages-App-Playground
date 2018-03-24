@@ -1,5 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { AuthService } from "./auth.service";
+import { User } from "./user.model";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-signin',
@@ -7,11 +10,27 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 })
 export class LoginComponent implements OnInit {
     
+    constructor(private authService: AuthService, private router: Router){}
     loginForm: FormGroup;
 
 
     onSubmit(){
-        console.log(this.loginForm);
+        const user = new User(this.loginForm.value.email,
+            this.loginForm.value.password);
+       this.authService.login(user).subscribe(
+           data => {
+               if(!data['token']) {
+                   console.log('Didnt recieve token');
+               }
+
+               localStorage.setItem('token', data['token']);
+               localStorage.setItem('userId', data['userId']);
+               this.router.navigateByUrl('/')
+           },
+           error => console.log(error)
+       );
+
+       this.loginForm.reset();
     }
 
     ngOnInit(): void {

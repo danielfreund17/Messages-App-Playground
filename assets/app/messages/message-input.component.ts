@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { MessageService } from "./message.service";
 import { Message } from "./message.model";
 import { NgForm } from "@angular/forms";
+import { AuthService } from "../auth/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-message-input',
@@ -11,7 +13,7 @@ import { NgForm } from "@angular/forms";
 
 export class MessageInputComponent {
 
-    constructor(private messageService: MessageService) {}
+    constructor(private messageService: MessageService, private authService: AuthService, private router: Router) {}
 
     onSubmit(form : NgForm){
         console.log(form);
@@ -22,5 +24,14 @@ export class MessageInputComponent {
         );
        // console.log(this.messageService.getMessages());
         form.resetForm();
+    }
+
+    onLogout() {
+        this.authService.logout();
+        this.router.navigateByUrl('/auth/login');
+    }
+
+    isLoggedIn() {
+        return this.authService.isLoggedIn();
     }
 }

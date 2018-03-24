@@ -14,7 +14,20 @@ export class AuthService {
     signup(user: User) {
         const body = JSON.stringify(user);
         return this.http.post('http://localhost:3000/user', body, this.httpOptions)
-        .map((response: Response) => response.json())
-        .catch((error : Response) => Observable.throw(error.json()));
+        .catch((error : Response) => Observable.throw(error));
+    }
+
+    login(user: User) {
+        const body = JSON.stringify(user);
+        return this.http.post('http://localhost:3000/user/login', body, this.httpOptions)
+        .catch((error : Response) => Observable.throw(error));
+    }
+   
+    logout(): any {
+        localStorage.clear();
+    }
+
+    isLoggedIn() {
+        return localStorage.getItem('token') !== null;
     }
 }
