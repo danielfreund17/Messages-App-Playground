@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var appConfig = require('../appConfig');
 
 router.post('/', function (req, res, next) {
     var user = new User({
@@ -48,7 +49,7 @@ router.post('/login', function(req, res, next) {
             });
         }
 
-        var token = jwt.sign({user: user}, 'secret', {expiresIn: 7200});
+        var token = jwt.sign({user: user}, appConfig.secret, {expiresIn: 7200});
         return res.status(200).json({
             message: 'logged in successfully',
             token: token,
