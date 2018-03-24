@@ -3,20 +3,22 @@ import {HttpClient, HttpHeaders} from "@angular/common/http"
 import { Injectable } from "@angular/core";
 import 'rxjs/Rx'
 import { Observable } from "rxjs/Observable";
+import { AuthService } from "../auth/auth.service";
 
 @Injectable()
 export class MessageService {
     private messages: Message[] = [];
-    private httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json'})
-        };
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient, private authService: AuthService) {
+        this.authService.onLogoutEvent.subscribe({
+            next: () => this.messages = null
+        });
+    }
 
     addMessage(message : Message){
+        let httpOptions = this.getHTTPHeaders();
         const body = JSON.stringify(message);
-        return this.http.post('http://localhost:3000/message', body, this.httpOptions)
+        return this.http.post('http://localhost:3000/message', body, httpOptions)
         .map((response : Response) => {
             const result = response['obj'];
             const newMessage = new Message(result.content, 'Daniel', result._id, null);
@@ -26,7 +28,8 @@ export class MessageService {
     }
 
     getMessages(){
-        return this.http.get('http://localhost:3000/message')
+        let httpOptions = this.getHTTPHeaders();
+        return this.http.get('http://localhost:3000/message', httpOptions)
         .map((respone: Response) => {
             const messages = respone['obj'];
             let myMessages : Message[] = [];
@@ -37,7 +40,10 @@ export class MessageService {
             this.messages = myMessages;
             return myMessages;
         })
-        .catch(err => Observable.throw(err.json)); 
+        .catch((err: any) =>  {
+            console.log(err)
+            return Observable.throw(err);
+        }); 
     }
     
 
@@ -45,8 +51,9 @@ export class MessageService {
         var index = this.messages.indexOf(message);
         this.messages.splice(index,1); //delete one, start from index
 
+        let httpOptions = this.getHTTPHeaders();
         const body = JSON.stringify(message);
-        return this.http.delete('http://localhost:3000/message/' + message.messageId, this.httpOptions)
+        return this.http.delete('http://localhost:3000/message/' + message.messageId, httpOptions)
         .map((respone: Response) => {
             const resMessage = respone['message'];
             return resMessage;
@@ -55,12 +62,22 @@ export class MessageService {
     }
 
     saveEditedMessage(message: Message) {
+        let httpOptions = this.getHTTPHeaders();
         const body = JSON.stringify(message);
-        return this.http.patch('http://localhost:3000/message/' + message.messageId, body, this.httpOptions)
+        return this.http.patch('http://localhost:3000/message/' + message.messageId, body, httpOptions)
         .map((respone: Response) => {
             const resMessage = respone['message'];
             return resMessage;
         })
         .catch(err => Observable.throw(err.json)); 
+    }
+
+    getHTTPHeaders() {
+        //This method is being called before every HTTP request in order to make sure we still have the token.
+        return {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              'Authorization' : `${localStorage.getItem('token')}`})
+            };
     }
 }
