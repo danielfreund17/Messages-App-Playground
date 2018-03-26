@@ -29,19 +29,21 @@ export class MessageComponent {
     constructor(private messageService: MessageService){}
 
     onDelete() {
-        //TODO- http req
         this.messageService.deleteMessage(this.message).subscribe(
             res => console.log(res),
             err => console.log(err)
         );
     }
 
-    onSave(){
+    onSave() {
         this.messageService.saveEditedMessage(this.message).subscribe(
             data => console.log(data),
             err => console.log(err)
         );
-
         this.showEdit = !this.showEdit;
+    }
+
+    isMessageBelongsToUser() {
+        return this.message.userId === localStorage.getItem('userId');
     }
 }

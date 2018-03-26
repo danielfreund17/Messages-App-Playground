@@ -12,8 +12,8 @@
             <a (click)="onSave()">Save</a>
         </div>
         <div class="config">
-            <a (click) = "showEdit= !showEdit">Edit</a>
-            <a (click)="onDelete()">Delete</a>
+            <a (click) = "showEdit= !showEdit" *ngIf="isMessageBelongsToUser()">Edit</a>
+            <a (click)="onDelete()" *ngIf="isMessageBelongsToUser()">Delete</a>
         </div>
     </footer>
 </article>

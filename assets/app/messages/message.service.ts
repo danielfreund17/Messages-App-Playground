@@ -20,8 +20,13 @@ export class MessageService {
         const body = JSON.stringify(message);
         return this.http.post('http://localhost:3000/message', body, httpOptions)
         .map((response : Response) => {
-            const result = response['obj'];
-            const newMessage = new Message(result.content, 'Daniel', result._id, null);
+            const msg = response['msg'];
+            const firstName = response['firstName'];
+            const lastName = response['lastName'];
+            const newMessage = new Message(msg.content,
+                firstName + ' ' + lastName,
+                 msg._id,
+                 msg.user);
             this.messages.push(newMessage);
         })
         .catch(err => Observable.throw(err.json)); // only creates observable
@@ -34,7 +39,10 @@ export class MessageService {
             const messages = respone['obj'];
             let myMessages : Message[] = [];
             for(let message of messages) {
-                myMessages.push(new Message(message.content, 'DanielF', message._id))
+                myMessages.push(new Message(message.content,
+                     message.user.firstName + ' ' + message.user.lastName,
+                      message._id,
+                       message.user._id));
             }
 
             this.messages = myMessages;
