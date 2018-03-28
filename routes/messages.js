@@ -18,17 +18,16 @@ router.use('/', function(req, res, next) {
     });
 });
 
-router.get('/', function(req, res, next) {
-    Message.find()
+router.get('/', async function(req, res, next) {
+    try {
+    let messages = await Message.find()
     .populate('user', 'firstName lastName')
-    .exec((err , messages) => {
-        if(err) {
-            var errorObj = {title: 'An error occurred'};
-            return res.status(500).send(JSON.stringify(errorObj));
-        }
-
-        return res.status(200).json({message: 'success', obj: messages});
-    });
+    .exec();
+    return res.status(200).json({message: 'success', obj: messages});
+    }
+    catch(err) {
+        return res.status(500).json({message: 'Could not get messages'});
+    }
 });
 
 router.post('/', function (req, res, next) {
@@ -43,7 +42,7 @@ router.post('/', function (req, res, next) {
         var message = new Message({
         content: req.body.content,
         user: mongoUser._id});       
-        message.save((err,mongoMsg)=>{
+        message.save((err, mongoMsg)=>{
             if(err) {
                 var errorObj = {title: 'An error occurred'};
                 return res.status(500).send(JSON.stringify(errorObj));
