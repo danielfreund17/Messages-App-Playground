@@ -43,7 +43,7 @@ router.post('/', function (req, res, next) {
         var message = new Message({
         content: req.body.content,
         user: mongoUser._id});       
-        message.save((err,mongoMsg)=>{
+        message.save((err, mongoMsg)=>{
             if(err) {
                 var errorObj = {title: 'An error occurred'};
                 return res.status(500).send(JSON.stringify(errorObj));

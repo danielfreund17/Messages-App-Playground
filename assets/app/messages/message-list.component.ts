@@ -28,6 +28,7 @@ export class MessageListComponent implements OnInit {
      }
 
      ngOnInit(): void { //invoked after ctor
+        //TODO- get messages every 3 seconds
         this.messageService.getMessages().subscribe(
             (messages: Message[]) => {
                 this.appMessages = messages;

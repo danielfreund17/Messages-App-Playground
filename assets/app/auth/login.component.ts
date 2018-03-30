@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
                localStorage.setItem('token', data['token']);
                localStorage.setItem('userId', data['userId']);
-               this.router.navigateByUrl('/')
+               this.router.navigateByUrl('/messages');
            },
            error => console.log(error)
        );
