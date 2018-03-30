@@ -20,14 +20,13 @@ router.use('/', function(req, res, next) {
 
 router.get('/', async function(req, res, next) {
     try {
-        let messages = await Message.find()
-        .populate('user', 'firstName lastName')
-        .exec();
-        
-        return res.status(200).json({message: 'success', obj: messages});
-    } catch (error) {
-        var errorObj = {title: 'An error occurred'};
-        return res.status(500).send(JSON.stringify(errorObj));
+    let messages = await Message.find()
+    .populate('user', 'firstName lastName')
+    .exec();
+    return res.status(200).json({message: 'success', obj: messages});
+    }
+    catch(err) {
+        return res.status(500).json({message: 'Could not get messages'});
     }
 });
 
