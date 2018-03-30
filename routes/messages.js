@@ -18,17 +18,17 @@ router.use('/', function(req, res, next) {
     });
 });
 
-router.get('/', function(req, res, next) {
-    Message.find()
-    .populate('user', 'firstName lastName')
-    .exec((err , messages) => {
-        if(err) {
-            var errorObj = {title: 'An error occurred'};
-            return res.status(500).send(JSON.stringify(errorObj));
-        }
-
+router.get('/', async function(req, res, next) {
+    try {
+        let messages = await Message.find()
+        .populate('user', 'firstName lastName')
+        .exec();
+        
         return res.status(200).json({message: 'success', obj: messages});
-    });
+    } catch (error) {
+        var errorObj = {title: 'An error occurred'};
+        return res.status(500).send(JSON.stringify(errorObj));
+    }
 });
 
 router.post('/', function (req, res, next) {
@@ -50,7 +50,7 @@ router.post('/', function (req, res, next) {
             }
             mongoUser.messages.push(mongoMsg._id);    
             mongoUser.save(); 
-            var ret = {message: 'Saved message', msg : mongoMsg, firstName : mongoUser.firstName, lastName : mongoUser.lastName};
+            var ret = {message: 'Saved message', msg : mongoMsg, userFirstName : mongoUser.firstName, userLastName : mongoUser.lastName};
             return res.status(201).json(ret);
         });
     }); 

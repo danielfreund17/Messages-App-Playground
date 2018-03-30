@@ -21,8 +21,8 @@ export class MessageService {
         return this.http.post('http://localhost:3000/message', body, httpOptions)
         .map((response : Response) => {
             const msg = response['msg'];
-            const firstName = response['firstName'];
-            const lastName = response['lastName'];
+            const firstName = response['userFirstName'];
+            const lastName = response['userLastName'];
             const newMessage = new Message(msg.content,
                 firstName + ' ' + lastName,
                  msg._id,
