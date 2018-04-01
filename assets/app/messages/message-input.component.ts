@@ -16,7 +16,8 @@ import { Router } from "@angular/router";
         margin-left: 20px;
         float:left;
         align-content: left;
-        width: 400px;
+        width: 15%;
+        height: 40vh;
         margin-top: 30px;   
       }
     `]
