@@ -14,6 +14,7 @@ import { LoginComponent } from './auth/login.component';
 import { SignupComponent } from './auth/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
+import { StickyNavModule } from 'ng2-sticky-nav';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,7 @@ import { AuthService } from './auth/auth.service';
         LoginComponent,
         SignupComponent,
     ],
-    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule],
+    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule, StickyNavModule],
     providers: [AuthService],
     bootstrap: [AppComponent]
 })

@@ -1,5 +1,7 @@
-<div class="col-md-8 col-md-offset-2">
+
+<div class="col-md-8 col-md-offset-2" ngStickyNav stickyClass="sticky-box-shadow">
     <form ngNativeValidate (ngSubmit) = "onSubmit(f)" #f = "ngForm">
+        <hr>
         <div class="form-group">
                 <label for="content">Message</label>
                 <input type="text" id="content" class="form-control" ngModel name="messageContent" required>
@@ -8,6 +10,7 @@
         <button class="btn btn-primary" type="submit">Send</button>
         <hr>
         <button class="btn btn-danger" (click) ="onLogout()" *ngIf="isLoggedIn()">Logout</button>
-    </form>
+        <hr>
+    </form> 
 </div>
 
