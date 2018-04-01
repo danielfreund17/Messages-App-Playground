@@ -14,6 +14,12 @@ import { LoginComponent } from './auth/login.component';
 import { SignupComponent } from './auth/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
+import { ErrorComponent } from './errors/error.component';
+import { ErrorService } from './errors/error.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {TooltipModule} from "ngx-tooltip";
+
+
 
 @NgModule({
     declarations: [
@@ -27,9 +33,10 @@ import { AuthService } from './auth/auth.service';
         LogoutComponent,
         LoginComponent,
         SignupComponent,
+        ErrorComponent
     ],
-    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule],
-    providers: [AuthService],
+    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule, TooltipModule],
+    providers: [AuthService, ErrorService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

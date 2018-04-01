@@ -2,7 +2,10 @@
     <nav class="col-md-8 col-md-offset-2">
         <ul class="nav nav-pills">
             <li routerLinkActive="active"><a [routerLink] = "['/messages']" *ngIf="isUserLoggedIn()">Messenger</a></li>
+            <li routerLinkActive="active"><a *ngIf="!isUserLoggedIn()" tooltip="Please log in first" [tooltipAnimation]="true" tooltipPlacement="top">Messenger</a></li>
+
             <li routerLinkActive="active"><a [routerLink] = "['/auth']" *ngIf="!isUserLoggedIn()">Login</a></li>
+            <li routerLinkActive="active"><a *ngIf="isUserLoggedIn()" tooltip="You are logged in!" [tooltipAnimation]="true" tooltipPlacement="top">Login</a></li>
         </ul>
     </nav>
 </header>
