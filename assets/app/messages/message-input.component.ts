@@ -8,6 +8,18 @@ import { Router } from "@angular/router";
 @Component({
     selector: 'app-message-input',
     templateUrl: './message-input.component.html',
+    styles : [`
+      .sticky-box-shadow {
+        box-shadow: 5px 0px 10px 5px rgba(0,0,0,0.5);
+        position: absolute;
+        left:0;
+        margin-left: 20px;
+        float:left;
+        align-content: left;
+        width: 400px;
+        margin-top: 30px;   
+      }
+    `]
     //providers: [MessageService] //declared in AppComponent in order to share same instance with message-input component
 })
 

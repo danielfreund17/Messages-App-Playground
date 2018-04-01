@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Message } from "./message.model";
 import { MessageService } from "./message.service";
+import { Observable } from "rxjs";
 
 @Component({
     selector: 'app-message-list',
@@ -28,11 +29,12 @@ export class MessageListComponent implements OnInit {
      }
 
      ngOnInit(): void { //invoked after ctor
-        //TODO- get messages every 3 seconds
+        //Make a call to get messages every 2 seconds
+        Observable.interval(2000).subscribe((val) => {
         this.messageService.getMessages().subscribe(
             (messages: Message[]) => {
                 this.appMessages = messages;
             });
+        });
     }
-     
 }

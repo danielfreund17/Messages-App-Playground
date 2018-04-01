@@ -18,8 +18,7 @@ import { ErrorComponent } from './errors/error.component';
 import { ErrorService } from './errors/error.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {TooltipModule} from "ngx-tooltip";
-
-
+import { StickyNavModule } from 'ng2-sticky-nav';
 
 @NgModule({
     declarations: [
@@ -35,7 +34,7 @@ import {TooltipModule} from "ngx-tooltip";
         SignupComponent,
         ErrorComponent
     ],
-    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule, TooltipModule],
+    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, HttpClientModule, TooltipModule,StickyNavModule],
     providers: [AuthService, ErrorService],
     bootstrap: [AppComponent]
 })

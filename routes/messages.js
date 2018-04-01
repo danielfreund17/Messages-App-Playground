@@ -5,6 +5,7 @@ var jwt = require('jsonwebtoken');
 var appConfig = require('../appConfig');
 var User = require('../models/user');
 
+const numOfMessagesToReturn = 15;
 
 router.use('/', function(req, res, next) {
     jwt.verify(req.headers['authorization'], appConfig.secret, (err, decoded) => {
@@ -20,7 +21,7 @@ router.use('/', function(req, res, next) {
 
 router.get('/', async function(req, res, next) {
     try {
-    let messages = await Message.find()
+    let messages = await Message.find().sort({$natural:-1}).limit(numOfMessagesToReturn)
     .populate('user', 'firstName lastName')
     .exec();
     return res.status(200).json({message: 'success', obj: messages});
