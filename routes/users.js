@@ -1,22 +1,36 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var Group = require('../models/group');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var appConfig = require('../appConfig');
 
-router.post('/', function (req, res, next) {
-    var user = new User({
-        firstName : req.body.firstName,
-        lastName: req.body.lastName,
-        password : bcrypt.hashSync(req.body.password, 10),
-        email : req.body.email
-    });
-
+router.post('/', async function (req, res, next) {
+    try {
+        var existingGroup = await Group.findOne({groupName: req.body.groupName})
+        var group = existingGroup ? existingGroup : new Group({
+            groupName: req.body.groupName
+        });
+        var mongoGroup = await group.save();
+        var user = new User({
+            firstName : req.body.firstName,
+            lastName: req.body.lastName,
+            password : bcrypt.hashSync(req.body.password, 10),
+            group: mongoGroup._id,
+            email : req.body.email
+        });
+    }
+    catch(err) {
+        return res.status(500).json({
+            message: 'Could not create user',
+            error: err
+        });
+    }
     user.save((err, mongoRes) => {
         if(err) {
             return res.status(500).json({
-                message: 'Could not create user',
+                message: 'User Already Exists',
                 error: err
             });
         }
@@ -39,13 +53,13 @@ router.post('/login', function(req, res, next) {
         }
         else if(!user) {
             return res.status(500).json({
-                message: 'Login failed',
+                message: 'User Does Not Exists',
             });
         }
 
         if(!bcrypt.compareSync(req.body.password, user.password)) {
             return res.status(401).json({
-                message: 'Login failed',
+                message: 'Wrong Password',
             });
         }
 

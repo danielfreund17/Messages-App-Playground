@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
     onSubmit(){
         const user = new User(this.signupForm.value.email,
              this.signupForm.value.password,
+             this.signupForm.value.groupName,
               this.signupForm.value.firstName, 
               this.signupForm.value.lastName);
         this.authService.signup(user).subscribe(
@@ -34,6 +35,7 @@ export class SignupComponent implements OnInit {
                 Validators.required,
                 Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
                         ]),
+            groupName : new FormControl(null, Validators.required),
             password : new FormControl(null, Validators.required),
         })
     }

@@ -16,7 +16,7 @@ export class MessageService {
     }
 
     addMessage(message : Message){
-        let httpOptions = this.getHTTPHeaders();
+        let httpOptions = this.getHTTPHeaders(); //Get http headers, including the jwt of the logged in user
         const body = JSON.stringify(message);
         return this.http.post('http://localhost:3000/message', body, httpOptions)
         .map((response : Response) => {
@@ -25,9 +25,10 @@ export class MessageService {
             const lastName = response['userLastName'];
             const newMessage = new Message(msg.content,
                 firstName + ' ' + lastName,
+                msg.groupName,
                  msg._id,
-                 msg.user);
-            this.messages.push(newMessage);
+                 msg.user
+                );
         })
         .catch(err => Observable.throw(err.json)); // only creates observable
     }
@@ -41,6 +42,7 @@ export class MessageService {
             for(let message of messages) {
                 myMessages.push(new Message(message.content,
                      message.user.firstName + ' ' + message.user.lastName,
+                     null, //Group is not needed at client for now
                       message._id,
                        message.user._id));
             }

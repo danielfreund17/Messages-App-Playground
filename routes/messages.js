@@ -4,6 +4,7 @@ var Message = require('../models/message');
 var jwt = require('jsonwebtoken');
 var appConfig = require('../appConfig');
 var User = require('../models/user');
+var Group = require('../models/group');
 
 const numOfMessagesToReturn = 15;
 
@@ -21,7 +22,9 @@ router.use('/', function(req, res, next) {
 
 router.get('/', async function(req, res, next) {
     try {
-    let messages = await Message.find().sort({$natural:-1}).limit(numOfMessagesToReturn)
+    var decoded = jwt.decode(req.headers['authorization']);
+    var user = await User.findById(decoded.user);
+    let messages = await Message.find({group: user.group}).sort({$natural:-1}).limit(numOfMessagesToReturn)
     .populate('user', 'firstName lastName')
     .exec();
     return res.status(200).json({message: 'success', obj: messages});
@@ -42,7 +45,8 @@ router.post('/', function (req, res, next) {
         }    
         var message = new Message({
         content: req.body.content,
-        user: mongoUser._id});       
+        user: mongoUser._id,
+        group: mongoUser.group});       
         message.save((err, mongoMsg)=>{
             if(err) {
                 var errorObj = {title: 'An error occurred'};

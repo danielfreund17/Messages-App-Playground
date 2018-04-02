@@ -4,6 +4,7 @@ import { Message } from "./message.model";
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../auth/auth.service";
 import { Router } from "@angular/router";
+import { ErrorService } from "../errors/error.service";
 
 @Component({
     selector: 'app-message-input',
@@ -11,14 +12,13 @@ import { Router } from "@angular/router";
     styles : [`
       .sticky-box-shadow {
         box-shadow: 5px 0px 10px 5px rgba(0,0,0,0.5);
-        position: absolute;
         left:0;
+        position: absolute;
         margin-left: 20px;
-        float:left;
         align-content: left;
         width: 15%;
-        height: 40vh;
-        margin-top: 30px;   
+        height: 25vh;
+        margin-top: 50px;   
       }
     `]
     //providers: [MessageService] //declared in AppComponent in order to share same instance with message-input component
@@ -26,14 +26,13 @@ import { Router } from "@angular/router";
 
 export class MessageInputComponent {
 
-    constructor(private messageService: MessageService, private authService: AuthService, private router: Router) {}
+    constructor(private messageService: MessageService, private authService: AuthService, private router: Router, private errorService: ErrorService) {}
 
     onSubmit(form : NgForm){
-        console.log(form);
-        var message = new Message(form.value.messageContent, 'DanielF');
+        var message = new Message(form.value.messageContent);
         this.messageService.addMessage(message).subscribe(
             data => console.log(data),
-            err => console.log(err)
+            err => this.errorService.handleError(err)
         );
        // console.log(this.messageService.getMessages());
         form.resetForm();
