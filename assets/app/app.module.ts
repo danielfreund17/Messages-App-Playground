@@ -6,7 +6,6 @@ import {MessageComponent} from "./messages/message.component";
 import { MessageListComponent } from './messages/message-list.component';
 import { MessageInputComponent } from './messages/message-input.component';
 import { MessagesComponent } from './messages/messages.component';
-import { AuthenticationComponent } from './auth/authentication.component';
 import { HeaderComponent } from './header.component';
 import { routing } from './app.routing';
 import { LogoutComponent } from './auth/logout.component';
@@ -20,15 +19,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {TooltipModule} from "ngx-tooltip";
 import { StickyNavModule } from 'ng2-sticky-nav';
 import { MessageModule } from './messages/message.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthenticationComponent } from './auth/authentication.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         AuthenticationComponent,
         HeaderComponent,
-        LogoutComponent,
-        LoginComponent,
-        SignupComponent,
         ErrorComponent
     ],
     imports: [
@@ -38,9 +36,10 @@ import { MessageModule } from './messages/message.module';
         ReactiveFormsModule,
         HttpClientModule,
         TooltipModule,
-        MessageModule
+        MessageModule,
+        AuthModule
     ],
-    providers: [AuthService, ErrorService],
+    providers: [ErrorService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
