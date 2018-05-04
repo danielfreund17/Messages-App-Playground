@@ -3,6 +3,7 @@ import { User } from "./user.model";
 import { Injectable, EventEmitter, Output } from "@angular/core";
 import { Observable } from "rxjs";
 import { ErrorService } from "../errors/error.service";
+import { Urls } from "../../urlsconfig";
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
 
     signup(user: User) {
         const body = JSON.stringify(user);
-        return this.http.post('http://localhost:3000/user', body, this.httpOptions)
+        return this.http.post(Urls.URL + 'user', body, this.httpOptions)
         .catch((error : Response) => { 
             this.errorService.handleError(error['error']);
             return Observable.throw(error);
@@ -24,7 +25,7 @@ export class AuthService {
 
     login(user: User) {
         const body = JSON.stringify(user);
-        return this.http.post('http://localhost:3000/user/login', body, this.httpOptions)
+        return this.http.post(Urls.URL + 'user/login', body, this.httpOptions)
         .catch((error : Response) => { 
             this.errorService.handleError(error['error']);
             return Observable.throw(error);

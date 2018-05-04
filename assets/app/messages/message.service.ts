@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import 'rxjs/Rx'
 import { Observable } from "rxjs/Observable";
 import { AuthService } from "../auth/auth.service";
+import { Urls } from "../../urlsconfig";
 
 @Injectable()
 export class MessageService {
@@ -18,7 +19,7 @@ export class MessageService {
     addMessage(message : Message){
         let httpOptions = this.getHTTPHeaders(); //Get http headers, including the jwt of the logged in user
         const body = JSON.stringify(message);
-        return this.http.post('http://localhost:3000/message', body, httpOptions)
+        return this.http.post(Urls.URL + 'message', body, httpOptions)
         .map((response : Response) => {
             const msg = response['msg'];
             const firstName = response['userFirstName'];
@@ -35,7 +36,7 @@ export class MessageService {
 
     getMessages(){
         let httpOptions = this.getHTTPHeaders();
-        return this.http.get('http://localhost:3000/message', httpOptions)
+        return this.http.get(Urls.URL + 'message', httpOptions)
         .map((respone: Response) => {
             const messages = respone['obj'];
             let myMessages : Message[] = [];
@@ -63,7 +64,7 @@ export class MessageService {
 
         let httpOptions = this.getHTTPHeaders();
         const body = JSON.stringify(message);
-        return this.http.delete('http://localhost:3000/message/' + message.messageId, httpOptions)
+        return this.http.delete(Urls.URL + 'message/' + message.messageId, httpOptions)
         .map((respone: Response) => {
             const resMessage = respone['message'];
             return resMessage;
@@ -74,7 +75,7 @@ export class MessageService {
     saveEditedMessage(message: Message) {
         let httpOptions = this.getHTTPHeaders();
         const body = JSON.stringify(message);
-        return this.http.patch('http://localhost:3000/message/' + message.messageId, body, httpOptions)
+        return this.http.patch(Urls.URL + 'message/' + message.messageId, body, httpOptions)
         .map((respone: Response) => {
             const resMessage = respone['message'];
             return resMessage;
