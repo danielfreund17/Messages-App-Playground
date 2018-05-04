@@ -13,12 +13,11 @@ import { ErrorService } from "../errors/error.service";
       .sticky-box-shadow {
         box-shadow: 5px 0px 10px 5px rgba(0,0,0,0.5);
         left:0;
-        position: absolute;
         margin-left: 20px;
         align-content: left;
         width: 15%;
         height: 25vh;
-        margin-top: 50px;   
+        margin-top: 100px;   
       }
     `]
     //providers: [MessageService] //declared in AppComponent in order to share same instance with message-input component

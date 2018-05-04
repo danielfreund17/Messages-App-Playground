@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "./auth.service";
 import { User } from "./user.model";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-signup',
@@ -10,7 +11,7 @@ import { User } from "./user.model";
 export class SignupComponent implements OnInit {
     
     signupForm: FormGroup;
-    constructor(private authService : AuthService){}
+    constructor(private authService : AuthService, private router : Router){}
 
 
     onSubmit(){
@@ -24,6 +25,7 @@ export class SignupComponent implements OnInit {
         );
 
         this.signupForm.reset();
+        this.router.navigateByUrl('/auth/login');
         //TODO- http request
     }
 
