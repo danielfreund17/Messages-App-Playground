@@ -16,7 +16,6 @@ import { ErrorService } from "../errors/error.service";
         margin-left: 20px;
         align-content: left;
         width: 15%;
-        height: 25vh;
         margin-top: 100px;   
       }
     `]
