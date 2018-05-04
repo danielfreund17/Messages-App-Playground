@@ -8,7 +8,8 @@ var mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
 var messagesRoutes = require('./routes/messages');
 var usersRoutes = require('./routes/users');
-mongoose.connect('DbUser:123456456@ds115420.mlab.com:15420/messages-app-deployment');
+var appConfig = require('../messages-project/appConfig');
+mongoose.connect(appConfig.MongoUrlProd);
 
 
 var app = express();
