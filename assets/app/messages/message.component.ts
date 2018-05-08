@@ -1,5 +1,5 @@
 
-import {Component, Input} from "@angular/core";
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Message} from "./message.model";
 import { MessageService } from "./message.service";
 
@@ -25,7 +25,9 @@ import { MessageService } from "./message.service";
 export class MessageComponent {
     @Input() message : Message; //input comes from messaes-list (ngForeach) 
     showEdit: boolean = false;
-
+    @Output() stopPoolingEvent  = new EventEmitter();
+    @Output() continuePoolingEvent  = new EventEmitter();
+   
     constructor(private messageService: MessageService){}
 
     onDelete() {
@@ -41,6 +43,12 @@ export class MessageComponent {
             err => console.log(err)
         );
         this.showEdit = !this.showEdit;
+        this.continuePoolingEvent.emit();
+    }
+
+    onEdit() {
+        this.showEdit= !this.showEdit;
+        this.stopPoolingEvent.emit();
     }
 
     isMessageBelongsToUser() {
